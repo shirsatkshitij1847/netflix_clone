@@ -1,6 +1,9 @@
 import { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidateData } from "../utils/validate";
+import {createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
+
 const Login = () => {
     const [isSignInForm, setIsSignInForm] = useState(true);
 
@@ -15,14 +18,42 @@ const Login = () => {
     }
 
     const handleButtonCLick = () => {
-        
+
         const emailVal = email.current?.value;
         const passVal = password.current?.value;
-        console.log(!emailVal);
-        console.log(!passVal);
+        console.log(emailVal);
+        console.log(passVal);
+        const message = checkValidateData(emailVal, passVal);
 
-        console.log(checkValidateData(emailVal, passVal));
+        if (message === null) {
+            if (!isSignInForm) {
+                //signUp login
+                createUserWithEmailAndPassword(auth, emailVal, passVal).then((userCredencial) => {
+                    const user = userCredencial.user;
+                    console.log(user);
 
+                }).catch((error) => {
+                    const errorCode = error.code;
+                    const errmessage = error.message;
+                });
+
+            }
+            if (isSignInForm) {
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Signed in 
+                        const user = userCredential.user;
+                        console.log(user);
+                        
+                        // ...
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                    });
+
+            }
+        }
     }
     return (
         <div className="relative min-h-screen">
