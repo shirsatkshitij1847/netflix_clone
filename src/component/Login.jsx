@@ -1,11 +1,28 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "./Header";
-
+import { checkValidateData } from "../utils/validate";
 const Login = () => {
     const [isSignInForm, setIsSignInForm] = useState(true);
 
+    const email = useRef(null);
+    const password = useRef(null);
+
+
+
+
     const toggleSignInForm = () => {
         setIsSignInForm(!isSignInForm);
+    }
+
+    const handleButtonCLick = () => {
+        
+        const emailVal = email.current?.value;
+        const passVal = password.current?.value;
+        console.log(!emailVal);
+        console.log(!passVal);
+
+        console.log(checkValidateData(emailVal, passVal));
+
     }
     return (
         <div className="relative min-h-screen">
@@ -17,7 +34,7 @@ const Login = () => {
 
             </div>
 
-            <form className=" flex justify-center items-center h-screen">
+            <form onSubmit={(e) => { e.preventDefault() }} className=" flex justify-center items-center h-screen">
                 <div
                     className="flex flex-col justify-center w-80 p-6 rounded-md h-[450px]"
                     style={{ backgroundColor: 'rgba(0, 0, 0, 0.72)' }}
@@ -28,18 +45,20 @@ const Login = () => {
                         <input type="text" placeholder="Full Name" className="mb-8  p-3 w-full rounded text-white text-center bg-transparent border border-white"></input>}
                     <input
                         type="text"
+                        ref={email}
                         placeholder="Email Address"
                         className="mb-8  p-3 w-full rounded text-white text-center bg-transparent border border-white"
                     />
 
                     <input
                         type="password"
+                        ref={password}
                         placeholder="Password"
                         className="mb-11  p-3 w-full rounded text-white text-center bg-transparent border border-white"
                     />
 
 
-                    <button className=" mb-2   bg-red-600 text-white w-full p-3 rounded">
+                    <button onClick={handleButtonCLick} className=" mb-2  bg-red-600 text-white w-full p-3 rounded">
                         {isSignInForm ? "Sign In" : "Sign Up"}
                     </button>
                     <p className="p-2 text-amber-50 "
