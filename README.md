@@ -24,6 +24,12 @@ If you are developing a production application, we recommend using TypeScript wi
 - Form Validation
 - useReff() Hook
 
+
+
+
+- React Redux Installation for storing the userobject which is signIn
+   - installation command 
+      - npm i -D @reduxjs/toolkit
 # Features
 
  - Login / SignUp
